@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.post('/register', rateLimiter_10min_10req, vitMailFormat, async (req, res) => {
+router.post('/register', rateLimiter_10min_10req, vitMailFormat,async (req, res) => {
     await registerUser(req, res);
   });
   

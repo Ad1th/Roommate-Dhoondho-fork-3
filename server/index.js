@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+dotenv.config();
 import passport from "passport"
 import session from "express-session"
 import cors from 'cors';
@@ -66,7 +67,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 //   allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
 // }));
 app.use(cors());
-dotenv.config();
+
 
 mongoose
   .connect(process.env.MONGO_DB, {
