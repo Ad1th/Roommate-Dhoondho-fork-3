@@ -50,6 +50,7 @@ export const getUser = async (req, res) => {
   // Check if the request has an 'Origin' header
   const url = req.get('Origin');
   console.log('Domain:', url);
+  console.log(id);
 
   if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
     res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
@@ -179,6 +180,7 @@ export const updateUser = async (req, res) => {
   try {
     // Retrieve the user from the database
     const user = await UserModel.findById(id);
+
 
     // Compare currentUserId with the retrieved user's id
     if (id === currentUserId) {
