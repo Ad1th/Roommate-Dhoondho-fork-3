@@ -39,13 +39,14 @@ function DisplayRoomListingCard() {
 
   const deleteRoom = async (room_id) => {
     try {
-      const user_Id = profileData?.id;
+      const user_Id = profileData?.id || profileData?.user?._id;
       const requestBody = {
         userId: user_Id,
+        roomId: room_id
       };
 
       const response = await axios.delete(
-        `${process.env.REACT_APP_SERVER_URL}/room/${room_id}`,
+        `${process.env.REACT_APP_SERVER_URL}/room/delete`,
         {
           data: requestBody,
         }
@@ -154,3 +155,6 @@ function DisplayRoomListingCard() {
 }
 
 export default DisplayRoomListingCard;
+
+
+//checker

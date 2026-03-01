@@ -8,9 +8,10 @@ import { verifyJWT_withuserId, verifyJWTForGetRequest } from "../Middlewares/ver
 const router = express.Router()
 
 router.get('/all', rateLimiter_10min_100req, getAllRoom);
+router.delete("/delete", rateLimiter_10min_100req, verifyJWT_withuserId, deleteRoom);
 router.post('/:userid', rateLimiter_10min_10req, verifyJWT_withuserId, createRoom);
 router.post('/my/:userid', rateLimiter_10min_100req, verifyJWT_withuserId, getRoom);
 router.put('/:id', rateLimiter_10min_10req, dontExecuteAtProduction, updateRoom);
-router.delete("/:id", rateLimiter_10min_100req, verifyJWT_withuserId, deleteRoom);
+
 
 export default router;

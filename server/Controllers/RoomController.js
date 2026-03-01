@@ -153,7 +153,7 @@ export const updateRoom = async (req, res) => {
 
 // Delete a Room
 export const deleteRoom = async (req, res) => {
-  const id = req.params.id;
+  
 
   // Check if the request has an 'Origin' header
   const url = req.get('Origin');
