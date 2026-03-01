@@ -188,3 +188,32 @@ export const deleteRoommate = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const getRoommateFromId = async (req,res) =>{
+  const url = req.get('Origin');
+  const roommateId = req.params.id;
+  
+
+  if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
+    res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
+    return;
+  }
+  
+   try {
+    const roommate = await needRoommateModel.findById(roommateId);
+    console.log(roommate);
+    if (!roommate) {
+      res.status(404).json("Roommate record not found");
+      return;
+    }
+    else{
+      res.status(200).json(roommate);
+    }
+  }
+    
+  catch (error) {
+    res.status(500).json(error);
+  }
+
+
+}

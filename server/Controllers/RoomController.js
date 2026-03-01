@@ -46,8 +46,8 @@ export const getRoom = async (req, res) => {
   const { userId } = req.body;
 
   try {
-    if (id === userId) {
-      const Room = await needRoomModel.find({userId: id});
+    if (userId === id) {
+      const Room = await needRoomModel.find({"userId":id});
       res.status(200).json(Room);
     } else {
       res.status(403).json("Action forbidden");
@@ -56,7 +56,6 @@ export const getRoom = async (req, res) => {
     res.status(500).json(error);
   }
 };
-
 // Get all Rooms
 export const getAllRoom = async (req, res) => {
   const url = req.get('Origin');
@@ -178,3 +177,33 @@ export const deleteRoom = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+
+export const getRoomFromId = async (req,res) =>{
+  const url = req.get('Origin');
+  const roomId = req.params.id;
+  
+
+  if (process.env.NODE_ENV === "production" && url !== process.env.CLIENT_URL) {
+    res.status(403).json({ message: `${process.env.ACCESS_FORBIDDEN_MSG}` });
+    return;
+  }
+  
+   try {
+    const room = await needRoomModel.findById(roomId);
+    console.log(room);
+    if (!room) {
+      res.status(404).json("Room record not found");
+      return;
+    }
+    else{
+      res.status(200).json(room);
+    }
+  }
+    
+  catch (error) {
+    res.status(500).json(error);
+  }
+
+
+}
