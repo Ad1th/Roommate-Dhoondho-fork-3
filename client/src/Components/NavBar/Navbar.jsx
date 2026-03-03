@@ -64,66 +64,52 @@ function Navbar() {
           <i className={click ? "fas fa-times" : "fas fa-bars"} />
         </div>
         <ul className={click ? "nav-menu active" : "nav-menu"}>
-          <li className="nav-item">
+          <li className="nav-item header-btn my-roommates">
             <NavLink to="/home" className="nav-links" onClick={closeMobileMenu}>
+              <button className="nav-btn orange-btn">
+                <i className="fa-solid fa-user-group white-icon" />
+                <span>My Roommates</span>
+              </button>
             </NavLink>
           </li>
           <li
-            className="nav-item"
+            className="nav-item header-btn add-listing"
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
           >
             <NavLink to="/need" className="nav-links" onClick={closeMobileMenu}>
-              <button className="listing">
-                {" "}
-                <span className="button_icon" onClick={handleClick}>
-                  <i
-                    className={
-                      click ? "fa-solid fa-plus blue" : "fa-solid fa-plus white"
-                    }
-                  />
-                  Add Listing
-                </span>
+              <button className="nav-btn orange-btn">
+                <i className="fa-solid fa-plus white-icon" />
+                <span>Add Listing</span>
               </button>
             </NavLink>
-            <li className="nav-item">
-              { (
-                <NavLink to="/chat" className="nav-links" onClick={closeMobileMenu}>
-                  <button className="chat">
-                    {" "}
-                    <span className="button_icon" onClick={handleClick}>
-                      <i
-                        className={
-                          click ? "fa-solid fa-comments blue" : "fa-solid fa-comments white"
-                        }
-                      />
-                      Chat
-                    </span>
-                  </button>
-                </NavLink>
-              )}
-            </li>
           </li>
-          <li className="nav-item">
+          <li className="nav-item header-btn bookmarks-icon">
             <Link
               to="/selections"
-              className="nav-links bookmarks"
+              className="nav-links icon-btn orange-btn"
               onClick={closeMobileMenu}
-            ></Link>
+            >
+              <i className="fa-regular fa-heart white-icon"></i>
+            </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item header-btn user-icon">
             <Link
               to="/profile"
-              className="nav-links user"
+              className="nav-links icon-btn orange-btn"
               onClick={ProfileClickHandler}
-            ></Link>
+            >
+              <i className="fa-regular fa-user white-icon"></i>
+            </Link>
           </li>
-          <li className="nav-item">
+          <li className="nav-item header-btn logout-icon">
             <Link
               to="/"
-              className="nav-links logout"
+              className="nav-links icon-btn orange-btn"
               onClick={handleLogOut}
-            ></Link>
+            >
+              <i className="fa-solid fa-arrow-right-from-bracket white-icon"></i>
+            </Link>
           </li>
           <li className="nav-item-mobile">
             <Link
@@ -144,7 +130,7 @@ function Navbar() {
             </Link>
           </li>
           <li className="nav-item-mobile">
-            { (
+            {(
               <Link to="/chatMobile" className="nav-links-mobile user" onClick={closeMobileMenu}>
                 Chat
               </Link>

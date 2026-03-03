@@ -5,7 +5,6 @@ import { Listing } from "../../Components/Listing/Selecting";
 function Selections() {
   return (
     <>
-      <Navbar />
       <Listing />
       <Footer />
     </>

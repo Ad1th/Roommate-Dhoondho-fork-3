@@ -51,7 +51,7 @@ function DisplayRoomListingCard() {
           data: requestBody,
         }
       );
-        toast.success("Room deleted successfully!");
+      toast.success("Room deleted successfully!");
       // console.log("Room deleted:", response);
       setRooms((prevRooms) => prevRooms.filter((room) => room?._id !== room_id));
     } catch (error) {
@@ -63,91 +63,50 @@ function DisplayRoomListingCard() {
       {showModal2 && <Modal2 />}
       {rooms.map((room) => (
         <div className="each-card" key={room?.id}>
-          <div className="cards">
+          <span className="cards">
             <div className="main-card">
-              <div className="card-details">
-              <div
-                className="card-img"
-                style={{
-                  backgroundImage: `url('https://c4.wallpaperflare.com/wallpaper/40/849/87/anime-girls-wallpaper-preview.jpg')`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                  // width: '132px',
-                  // height: '158px',
-                }}
-              ></div>
-                <div className="card-info">
-                  <div className="card-informatios">
-                    <div className="card-name">Rank: {room?.rank} - {room?.preferredBlock} Block Posting</div>
-                    <div
-                      className="card-add"
-                      onClick={() => deleteRoom(room?._id)}
-                    >
-                      <img
-                        src="./image/minus-icon.png"
-                        alt=""
-                        style={{ height: "24px", width: "24px" }}
-                      />
-                    </div>
-                  </div>
-                  <div className="card-preference">
-                    <div className="card-rank">
-                      <div className="card-preference-title">Rank</div>
-                      <div className="card-preference-content">{room?.rank}</div>
-                    </div>
-                    <div className="card-bed">
-                      <div className="card-preference-title">Preferred bed</div>
-                      <div className="card-preference-content">
-                        {room?.preferredBed}
-                      </div>
-                    </div>
-                    <div className="card-block">
-                      <div className="card-preference-title">
-                        Block
-                      </div>
-                      <div className="card-preference-content">
-                        {room?.preferredBlock}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-downers2">
-                    <div className="card-year">
-                      <div className="card-preference-title">Year</div>
-                      <div className="card-preference-Year">{room?.year}</div>
-                    </div>
-                    <div className="card-gender">
-                      <div className="card-preference-title">Gender</div>
-                      <div className="card-preference-Gender">
-                        {room?.gender}
-                      </div>
-                    </div>
+              <div className="card-img" style={{ backgroundImage: `url(${require('../../Assets/listing-page/boys-listing.png')})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="card-info">
+                <div className="card-informatios">
+                  <div className="card-name">Rank: {room?.rank || "N/A"} - {room?.preferredBlock || "N/A"} Block</div>
+                  <div className="card-add" onClick={() => deleteRoom(room?._id)}>
+                    <i className="fa-solid fa-heart-crack" style={{ color: "#d98548", fontSize: "16px", cursor: "pointer" }}></i>
                   </div>
                 </div>
-              </div>
-              <div className="card-hr">
-                <hr />
-              </div>
-              <div className="card-habits-section">
-                <div className="card-habit">For Description - Click on the button</div>
-                <div
-                  className="card-habit-details"
-                  onClick={() => {
+                <div className="card-preference">
+                  <div>
+                    <div className="card-preference-title">Rank</div>
+                    <div className="card-preference-content">{room?.rank || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Preferred Bed</div>
+                    <div className="card-preference-content">{room?.preferredBed || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Block</div>
+                    <div className="card-preference-content">{room?.preferredBlock || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Year</div>
+                    <div className="card-preference-content">{room?.year || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Gender</div>
+                    <div className="card-preference-content">{room?.gender || "N/A"}</div>
+                  </div>
+                </div>
+                <div className="card-habits-section">
+                  <div className="card-habit-details" onClick={() => {
                     selectRoomDetail(room?.desc);
                     selectRoomPhone(room?.phone);
                     selectRoomEmail(room?.username);
-                  }}
-                >
-                  <div>
-                    <img
-                      src="./image/desc.png"
-                      alt=""
-                      style={{ height: "18px", width: "18px" }}
-                    />
+                  }}>
+                    Description
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+          </span>
         </div>
       ))}
     </>

@@ -11,7 +11,6 @@ const Roompage = () => {
   // console.log("user", user);
   return (
     <>
-      <Navbar />
       <NavTabs />
       <Footer />
     </>

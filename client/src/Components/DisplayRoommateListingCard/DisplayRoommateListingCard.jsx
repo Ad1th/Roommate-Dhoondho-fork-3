@@ -66,7 +66,7 @@ function DisplayRoommateListingCard() {
       firstname: roommate.firstname,
       lastname: roommate.lastname,
     });
-    
+
     if (chat) {
       toast.success("Chat started successfully!");
     }
@@ -79,102 +79,46 @@ function DisplayRoommateListingCard() {
         <div className="each-card" key={roommate?.id}>
           <span className="cards">
             <div className="main-card">
-              <div className="card-details">
-                <div
-                  className="card-img"
-                  style={{
-                    backgroundImage: `url('https://static01.nyt.com/images/2020/04/19/magazine/19Ethicist/19Ethicist-jumbo.jpg')`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                  }}
-                ></div>
-                <div className="card-info">
-                  <div className="card-informatios">
-                    <div className="card-name">Roommate Posting</div>
-                    <div className="card-actions">
-                      <button
-                        className="chat-button"
-                        onClick={() => handleStartChat(roommate)}
-                      >
-                        Chat
-                      </button>
-                      <div
-                        className="card-add"
-                        onClick={() => deleteRoommate(roommate?._id)}
-                      >
-                        <img
-                          src="./image/minus-icon.png"
-                          alt=""
-                          style={{ height: "24px", width: "24px" }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-preference">
-                    <div className="card-rank">
-                      <div className="card-preference-title">Rank</div>
-                      <div className="card-preference-content">
-                        {roommate?.rank}
-                      </div>
-                    </div>
-                    {/* <div className="card-block">
-                      <div className="card-preference-title">
-                        Preferred Block
-                      </div>
-                      <div className="card-preference-content">
-                        {roommate?.preferredBlock}
-                      </div>
-                    </div> */}
-                    <div className="card-bed">
-                      <div className="card-preference-title">
-                        Preferred Bed Type
-                      </div>
-                      <div className="card-preference-content">
-                        {roommate?.preferredBed}
-                      </div>
-                    </div>
-                    <div className="card-bed">
-                      <div className="card-preference-title">Vacancy</div>
-                      <div className="card-preference-content">
-                        {roommate?.remaining}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="card-downers">
-                    <div className="card-year">
-                      <div className="card-preference-title">Year</div>
-                      <div className="card-preference-Year">
-                        {roommate?.year}
-                      </div>
-                    </div>
-                    <div className="card-gender">
-                      <div className="card-preference-title">Gender</div>
-                      <div className="card-preference-Gender">
-                        {roommate?.gender}
-                      </div>
+              <div className="card-img" style={{ backgroundImage: `url(${require('../../Assets/listing-page/boys-listing.png')})`, backgroundSize: 'cover', backgroundPosition: 'center' }}></div>
+              <div className="card-info">
+                <div className="card-informatios">
+                  <div className="card-name">Roommate Posting</div>
+                  <div className="card-actions flex gap-2">
+                    <button className="chat-button" onClick={() => handleStartChat(roommate)}>Chat</button>
+                    <div className="card-add" onClick={() => deleteRoommate(roommate?._id)}>
+                      <i className="fa-solid fa-heart-crack" style={{ color: "#d98548", fontSize: "16px", cursor: "pointer" }}></i>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className="card-hr">
-                <hr />
-              </div>
-              <div className="card-habits-section">
-                <div className="card-habit">For Description - Click on the button</div>
-                <div
-                  className="card-habit-details"
-                  onClick={() => {
+                <div className="card-preference">
+                  <div>
+                    <div className="card-preference-title">Rank</div>
+                    <div className="card-preference-content">{roommate?.rank || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Preferred Bed</div>
+                    <div className="card-preference-content">{roommate?.preferredBed || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Year</div>
+                    <div className="card-preference-content">{roommate?.year || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Gender</div>
+                    <div className="card-preference-content">{roommate?.gender || "N/A"}</div>
+                  </div>
+                  <div>
+                    <div className="card-preference-title">Vacancy</div>
+                    <div className="card-preference-content">{roommate?.remaining || "N/A"}</div>
+                  </div>
+                </div>
+                <div className="card-habits-section">
+                  <div className="card-habit-details" onClick={() => {
                     selectRoommateDetail(roommate?.desc);
                     selectRoommatePhone(roommate?.phone);
                     selectRoommateEmail(roommate?.username);
-                  }}
-                >
-                  <div>
-                    <img
-                      src="./image/desc.png"
-                      alt=""
-                      style={{ height: "18px", width: "18px" }}
-                    />
+                  }}>
+                    Description
                   </div>
                 </div>
               </div>

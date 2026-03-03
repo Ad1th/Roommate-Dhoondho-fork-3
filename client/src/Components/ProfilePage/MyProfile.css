@@ -2,30 +2,36 @@ form {
   display: flex;
   flex-direction: column;
 }
+
 .form-section-1 input,
 .form-section-2 input {
   padding: 1rem;
   font-size: 1rem;
 }
+
 .errorMsg {
   font-family: "Causten-Regular", Helvetica;
   color: #ee1d52;
 }
+
 .form-section-1 {
   margin: 2rem 0 0 0;
   display: grid;
   grid-template-columns: 47.5% 47.5%;
   column-gap: 5%;
 }
+
 .form-section-1a,
 .form-section-1b {
   display: flex;
   flex-direction: column;
 }
+
 .form-section-1a label,
 .form-section-1b label {
   margin-bottom: 4px;
 }
+
 .form-section-1a input,
 .form-section-1b input {
   margin-bottom: 4px;
@@ -33,21 +39,25 @@ form {
   border-radius: 8px;
   height: 3rem;
 }
+
 .form-section-2 {
   margin: 2rem 0 0 0;
   display: grid;
   grid-template-columns: 47.5% 47.5%;
   column-gap: 5%;
 }
+
 .form-section-2a,
 .form-section-2b {
   display: flex;
   flex-direction: column;
 }
+
 .form-section-2a label,
 .form-section-2b label {
   margin-bottom: 4px;
 }
+
 .form-section-2a input,
 .form-section-2b input {
   margin-bottom: 4px;
@@ -55,12 +65,14 @@ form {
   border-radius: 8px;
   height: 3rem;
 }
+
 .form-section-3 {
   margin: 2rem 0 0 0;
   display: grid;
   grid-template-columns: 47.5% 47.5%;
   column-gap: 5%;
 }
+
 .form-section-3b {
   display: flex;
   flex-direction: column;
@@ -78,9 +90,11 @@ form {
   border-radius: 8px;
   height: 3rem;
 }
+
 .input-group {
   position: relative;
 }
+
 .form-section-3 .flex {
   height: 80px;
   outline: none;
@@ -88,6 +102,7 @@ form {
   width: 42.7vw;
   border-radius: 10px;
 }
+
 .form-section-3 .flex label {
   transform: translateX(14%) translateY(-52.5%) scale(1);
   background-color: #ffffff;
@@ -96,6 +111,7 @@ form {
   height: fit-content;
   position: absolute;
 }
+
 .form-section-3-border {
   width: 43vw;
   display: flex;
@@ -103,6 +119,7 @@ form {
   justify-content: flex-start;
   align-items: center;
 }
+
 .male,
 .female {
   justify-content: center;
@@ -110,6 +127,7 @@ form {
   display: flex;
   height: 3rem;
 }
+
 .form-section-4 button {
   margin: 2rem 0 0 0;
   display: flex;
@@ -117,15 +135,18 @@ form {
   align-items: flex-start;
   justify-content: flex-start;
 }
+
 .form-section-5 hr {
   margin: 2.5rem 0 0 0;
 }
+
 @media screen and (max-width: 660px) {
   .form-section-1 {
     margin: 2rem 0 0;
     display: flex;
     flex-direction: column;
   }
+
   .form-section-1a {
     display: flex;
     flex-direction: column;
@@ -137,17 +158,20 @@ form {
     flex-direction: column;
     margin: 1rem 0;
   }
+
   .form-section-2 {
     margin: 1rem 0 0;
     display: flex;
     flex-direction: column;
   }
+
   .form-section-2a,
   .form-section-2b {
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
   }
+
   .form-section-3 {
     margin: 2rem 0 0;
     display: flex;
@@ -167,6 +191,7 @@ form {
     justify-content: flex-start;
     align-items: center;
   }
+
   .form-section-3 .flex {
     height: 80px;
     outline: none;
@@ -175,6 +200,7 @@ form {
     border-radius: 10px;
   }
 }
+
 .profile {
   font-family: "Causten-SemiBold", Helvetica;
   margin: 0 auto;
@@ -205,6 +231,7 @@ form {
 .profiletab-hr {
   margin-top: 10px;
 }
+
 .profile-text {
   display: flex;
   justify-content: center;
@@ -212,12 +239,14 @@ form {
   font-weight: bolder;
   font-size: 32px;
 }
+
 .cards {
   place-items: center;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
   margin-bottom: 8%;
 }
+
 @media screen and (max-width: 950px) {
   .cards {
     justify-content: center;
@@ -249,6 +278,7 @@ form {
     border-bottom: 2px solid transparent;
     border-radius: 0;
   }
+
   .tabs .nonactive {
     height: 50px;
     width: 120px;
@@ -257,6 +287,7 @@ form {
     justify-content: center;
     align-items: center;
   }
+
   .tabs .activeprofile {
     height: 50px;
     width: 120px;
@@ -266,11 +297,13 @@ form {
     justify-content: center;
     align-items: center;
   }
+
   .roomate-icon img {
     margin-bottom: 0px;
     height: 28px;
     width: 28px;
   }
+
   .roomate-icon {
     display: flex;
     flex-direction: column;
@@ -278,6 +311,7 @@ form {
     align-items: center;
   }
 }
+
 .listing {
   font-family: "Causten-SemiBold", Helvetica;
   margin: 0 auto;
@@ -308,6 +342,7 @@ form {
 .listingtab-hr {
   margin-top: 10px;
 }
+
 .listing-text {
   display: flex;
   justify-content: center;
@@ -316,12 +351,14 @@ form {
   font-size: 24px;
   white-space: nowrap;
 }
+
 .cards {
   place-items: center;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(410px, 1fr));
   margin-bottom: 8%;
 }
+
 @media screen and (max-width: 950px) {
   .cards {
     justify-content: center;
@@ -353,6 +390,7 @@ form {
     border-bottom: 2px solid transparent;
     border-radius: 0;
   }
+
   .tabs .nonactive {
     height: 50px;
     width: 120px;
@@ -361,6 +399,7 @@ form {
     justify-content: center;
     align-items: center;
   }
+
   .tabs .activeprofile {
     height: 50px;
     width: 120px;
@@ -370,11 +409,13 @@ form {
     justify-content: center;
     align-items: center;
   }
+
   .roomate-icon img {
     margin-bottom: 0px;
     height: 28px;
     width: 28px;
   }
+
   .roomate-icon {
     display: flex;
     flex-direction: column;
@@ -394,11 +435,13 @@ form {
   left: 0;
   background: rgba(255, 255, 255, 0.8);
 }
-.form-section-6{
+
+.form-section-6 {
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
 }
+
 .form-section-6 input {
   margin-bottom: 4px;
   background-color: #d9d9d9;
@@ -410,7 +453,7 @@ form {
   margin-bottom: 4px;
 }
 
-.handlereset{
+.handlereset {
   color: #000000;
   text-decoration: underline;
   cursor: pointer;
@@ -434,5 +477,155 @@ form {
 }
 
 .add-button-inner:active {
-  background-color: #333; /* Darker color when button is pressed */
+  background-color: #333;
+  /* Darker color when button is pressed */
+}
+
+/* New Split Profile Styles */
+.profile-split-container {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1200px;
+  width: 90%;
+  padding-bottom: 2rem;
+}
+
+@media (max-width: 800px) {
+  .profile-split-container {
+    flex-direction: column;
+  }
+}
+
+.profile-left-box {
+  flex: 0 0 35%;
+  background-color: #A6C8E6;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.avatar-wrapper {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  background-color: #e6f0f9;
+}
+
+.avatar-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hello-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.profile-right-box {
+  flex: 1;
+  background-color: #A6C8E6;
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.box-heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 0;
+}
+
+.profile-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  column-gap: 2rem;
+}
+
+@media (max-width: 600px) {
+  .profile-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #555;
+  padding-left: 5px;
+}
+
+.form-group input {
+  background-color: #E2EBF5;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 1rem;
+  font-size: 16px;
+  color: #333;
+  outline: none;
+  transition: box-shadow 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.gender-toggle {
+  display: flex;
+  gap: 1rem;
+  background-color: #E2EBF5;
+  border-radius: 12px;
+  padding: 6px;
+  height: auto;
+}
+
+.gender-btn {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s;
+  color: #666;
+}
+
+.gender-btn.selected {
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.submit-btn {
+  transition: transform 0.2s, opacity 0.2s;
+  cursor: pointer;
+  border: none;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
 }

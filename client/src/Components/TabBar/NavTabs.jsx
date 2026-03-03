@@ -15,6 +15,14 @@ import { toast } from "react-toastify";
 import ReactPaginate from "react-paginate";
 import secureLocalStorage from "react-secure-storage";
 
+import blob1 from "../../Assets/listing-page/blob1.svg";
+import blob2 from "../../Assets/listing-page/blob2.svg";
+import blob3 from "../../Assets/listing-page/blob3.svg";
+import blob4 from "../../Assets/listing-page/blob4.svg";
+import blob5 from "../../Assets/listing-page/blob5.svg";
+import boysListingImg from "../../Assets/listing-page/boys-listing.png";
+import Navbar from "../NavBar/Navbar";
+
 import Hotjar from "@hotjar/browser";
 const siteId = 3765543;
 const hotjarVersion = 6;
@@ -100,6 +108,7 @@ function DisplayRoommateCard() {
   } = useContext(ListingContext);
   const getBlockOptions = (userGender) => {
     const menHostels = [
+      "Any",
       "A",
       "B",
       "B ANNEX",
@@ -121,7 +130,7 @@ function DisplayRoommateCard() {
       "R",
       "S",
       "T",
-      "All",
+
     ];
     const womenHostels = ["A", "B", "C", "D", "E", "F", "G", "H", "All"];
     if (userGender === "F") {
@@ -134,7 +143,7 @@ function DisplayRoommateCard() {
   useEffect(() => {
     const fetchRoommateAndRoomCards = async () => {
       try {
-        
+
         const roomLengthResponse = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/room/all?gender=${userGenderAll}&year=${selectedYear}&preferredBlock=${selectedBlock}&sort=${rankOrder}`
         );
@@ -336,66 +345,74 @@ function DisplayRoommateCard() {
     }
   }
 
-async function RoomLiking(otherRoomId) {
-  try {
-    const roomResponse = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/room/all`
-    );
+  async function RoomLiking(otherRoomId) {
+    try {
+      const roomResponse = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/room/all`
+      );
 
-    const roomDataResponse = roomResponse.data.find(
-      (room) => room._id === otherRoomId
-    );
+      const roomDataResponse = roomResponse.data.find(
+        (room) => room._id === otherRoomId
+      );
 
-    if (roomDataResponse) {
-      const roomGender = roomDataResponse.gender;
-      const roomuserId = roomDataResponse.userId;
+      if (roomDataResponse) {
+        const roomGender = roomDataResponse.gender;
+        const roomuserId = roomDataResponse.userId;
 
-      if (roomuserId !== userId) {
-        if (
-          (userGender === "M" && roomGender === "M") ||
-          (userGender === "F" && roomGender === "F")
-        ) {
-          let requestBody = {
-            roomId: otherRoomId,
-            currentUserId: userId
-          };
+        if (roomuserId !== userId) {
+          if (
+            (userGender === "M" && roomGender === "M") ||
+            (userGender === "F" && roomGender === "F")
+          ) {
+            let requestBody = {
+              roomId: otherRoomId,
+              currentUserId: userId
+            };
 
-          let result = await axios
-            .put(
-              `${process.env.REACT_APP_SERVER_URL}/user/likesroom`,
-              requestBody
-            )
-            .catch((error) => {
-              console.log(
-                `Error updating likes for user ID ${userId}:`,
-                error
-              );
-              return null;
-            });
+            let result = await axios
+              .put(
+                `${process.env.REACT_APP_SERVER_URL}/user/likesroom`,
+                requestBody
+              )
+              .catch((error) => {
+                console.log(
+                  `Error updating likes for user ID ${userId}:`,
+                  error
+                );
+                return null;
+              });
 
-          if (result && result.status === 200) {
-            toast.success(result.data);
-            const updatedLikeRoom = [...likeRoom];
-            if (!updatedLikeRoom.includes(otherRoomId)) {
-              updatedLikeRoom.push(otherRoomId);
-              setLikeRoom(updatedLikeRoom);
+            if (result && result.status === 200) {
+              toast.success(result.data);
+              const updatedLikeRoom = [...likeRoom];
+              if (!updatedLikeRoom.includes(otherRoomId)) {
+                updatedLikeRoom.push(otherRoomId);
+                setLikeRoom(updatedLikeRoom);
+              }
             }
+          } else {
+            toast.error("Error Code: NT05GM. Please contact MFC support.");
           }
         } else {
-          toast.error("Error Code: NT05GM. Please contact MFC support.");
+          toast.error("You can't select your own post.");
         }
-      } else {
-        toast.error("You can't select your own post.");
       }
+    } catch (error) {
+      toast.error("Error Code: NT06GM. Please contact MFC support.");
+      console.error(error);
     }
-  } catch (error) {
-    toast.error("Error Code: NT06GM. Please contact MFC support.");
-    console.error(error);
   }
-}
   return (
-    <>
-      <div className="tabs">
+    <div style={{ position: "relative", minHeight: "100vh" }}>
+      <div className="listing-background">
+        <img src={blob1} alt="" className="blob b1" />
+        <img src={blob2} alt="" className="blob b2" />
+        <img src={blob3} alt="" className="blob b3" />
+        <img src={blob4} alt="" className="blob b4" />
+        <img src={blob5} alt="" className="blob b5" />
+      </div>
+      <Navbar />
+      <div className="tabs relative z-10 w-[90vw] m-auto">
         <Tabs
           filterByGenderAndBlock={filterByGenderAndBlock}
           selectedGender={selectedGender}
@@ -438,118 +455,66 @@ async function RoomLiking(otherRoomId) {
                   </p>
                 </div>
               ) : (
-                roommatePosts.map((post) =>
-                (
-                    <div className="each-card" key={post?.id}>
-                      <span className="cards">
-                        <div className="main-card">
-                          <div className="card-details">
-                            <div
-                              className="card-img"
-                              style={{
-                                backgroundImage: `url('https://static01.nyt.com/images/2020/04/19/magazine/19Ethicist/19Ethicist-jumbo.jpg')`,
-                                backgroundSize: "cover",
-                                backgroundPosition: "center",
-                                // width: '132px',
-                                // height: '158px',
-                              }}
-                            ></div>
-                            <div className="card-info">
-                              <div className="card-informatios">
-                                <div className="card-name">
-                                  {post?.userDetails.firstname ?? "Arjun"}{" "}
-                                  {post?.userDetails.lastname ?? "Sharma"}
-                                </div>
-                                {userGender && (
-                                  <div
-                                    className="card-add"
-                                    onClick={() =>
-                                      likeRoommate(post?._id, post?.gender)
-                                    }
-                                  >
-                                    {following.includes(post?._id) ? (
-                                      <img
-                                        src="./image/checkbox.png"
-                                        alt=""
-                                        style={{
-                                          height: "24px",
-                                          width: "24px",
-                                        }}
-                                      />
-                                    ) : (
-                                      <img
-                                        src="./image/add-icon.png"
-                                        alt=""
-                                        style={{
-                                          height: "24px",
-                                          width: "24px",
-                                        }}
-                                      />
-                                    )}
-                                  </div>
+                roommatePosts.map((post) => (
+                  <div className="each-card" key={post?.id}>
+                    <span className="cards">
+                      <div className="main-card">
+                        <div
+                          className="card-img"
+                          style={{
+                            backgroundImage: `url(${boysListingImg})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }}
+                        ></div>
+                        <div className="card-info">
+                          <div className="card-informatios">
+                            <div className="card-name">
+                              {post?.userDetails?.firstname ?? "Arjun"}{" "}
+                              {post?.userDetails?.lastname ?? "Sharma"}
+                            </div>
+                            {userGender && (
+                              <div
+                                className="card-add"
+                                onClick={() =>
+                                  likeRoommate(post?._id, post?.gender)
+                                }
+                              >
+                                {following.includes(post?._id) ? (
+                                  <i className="fa-solid fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                                ) : (
+                                  <i className="fa-regular fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
                                 )}
                               </div>
-                              <div className="card-preference">
-                                <div className="card-rank">
-                                  <div className="card-preference-title">
-                                    Rank
-                                  </div>
-                                  <div className="card-preference-content">
-                                    {post?.rank}
-                                  </div>
-                                </div>
-                                {/* <div className="card-block">
-                                  <div className="card-preference-title">
-                                    Preferred Block
-                                  </div>
-                                  <div className="card-preference-content">
-                                    {post?.preferredBlock}
-                                  </div>
-                                </div> */}
-                                <div className="card-bed">
-                                  <div className="card-preference-title">
-                                    Preferred Bed Type
-                                  </div>
-                                  <div className="card-preference-content">
-                                    {post?.preferredBed}
-                                  </div>
-                                </div>
-                                <div className="card-bed">
-                                  <div className="card-preference-title">
-                                    Vacancy
-                                  </div>
-                                  <div className="card-preference-content">
-                                    {post?.remaining}
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="card-downers">
-                                <div className="card-year">
-                                  <div className="card-preference-title">
-                                    Year
-                                  </div>
-                                  <div className="card-preference-Year">
-                                    {post?.year}
-                                  </div>
-                                </div>
-                                <div className="card-gender">
-                                  <div className="card-preference-title">
-                                    Gender
-                                  </div>
-                                  <div className="card-preference-Gender">
-                                    {post?.gender}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+                            )}
                           </div>
-                          <div className="card-hr">
-                            <hr />
+                          <div className="card-preference">
+                            <div>
+                              <div className="card-preference-title">CGPA</div>
+                              <div className="card-preference-content">{post?.rank || '8.98'}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Preferred Bed</div>
+                              <div className="card-preference-content">{post?.preferredBed}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Year</div>
+                              <div className="card-preference-content">{post?.year}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Preferred Blocks</div>
+                              <div className="card-preference-content">{post?.preferredBlock || 'A B'}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">AC/NAC</div>
+                              <div className="card-preference-content">NAC</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Vacancy</div>
+                              <div className="card-preference-content">{post?.remaining || '1'}</div>
+                            </div>
                           </div>
                           <div className="card-habits-section">
-                            <div className="card-habit">
-                              For Description - Click on the button
-                            </div>
                             <div
                               className="card-habit-details"
                               onClick={() => {
@@ -558,20 +523,14 @@ async function RoomLiking(otherRoomId) {
                                 selectRoommateEmail(post?.username);
                               }}
                             >
-                              <div className="detail-box">
-                                <img
-                                  src="./image/desc.png"
-                                  alt=""
-                                  style={{ height: "18px", width: "18px" }}
-                                />
-                              </div>
+                              <i className="fa-regular fa-message"></i> Description
                             </div>
                           </div>
                         </div>
-                      </span>
-                    </div>
-                  )
-                )
+                      </div>
+                    </span>
+                  </div>
+                ))
               )}
             </div>
             <div
@@ -658,113 +617,69 @@ async function RoomLiking(otherRoomId) {
                 </div>
               ) : (
                 roomPosts.map((post) => (
-                  <div div className="each-card" key={post?.id}>
+                  <div className="each-card" key={post?.id}>
                     <span className="cards">
                       <div className="main-card">
-                        <div className="card-details">
-                          <div
-                            className="card-img"
-                            style={{
-                              backgroundImage: `url('https://c4.wallpaperflare.com/wallpaper/40/849/87/anime-girls-wallpaper-preview.jpg')`,
-                              backgroundSize: "cover",
-                              backgroundPosition: "center",
-                              // width: '132px',
-                              // height: '158px',
-                            }}
-                          ></div>
-                          <div className="card-info">
-                            <div className="card-informatios">
-                              <div className="card-name">
+                        <div
+                          className="card-img"
+                          style={{
+                            backgroundImage: `url(${boysListingImg})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }}
+                        ></div>
+                        <div className="card-info">
+                          <div className="card-informatios">
+                            <div className="card-name">
                               Rank: {post?.rank} - {post?.preferredBlock} Block
-                              </div>
-                              <div
-                                className="card-add"
-                                onClick={() =>
-                                  RoomLiking(post?._id, post?.gender)
-                                }
-                              >
-                                {likeRoom.includes(post?._id) ? (
-                                  <img
-                                    src="./image/checkbox.png"
-                                    alt=""
-                                    style={{ height: "24px", width: "24px" }}
-                                  />
-                                ) : (
-                                  <img
-                                    src="./image/add-icon.png"
-                                    alt=""
-                                    style={{ height: "24px", width: "24px" }}
-                                  />
-                                )}
-                              </div>
                             </div>
-                            <div className="card-preference">
-                              <div className="card-rank">
-                                <div className="card-preference-title">
-                                  Rank
-                                </div>
-                                <div className="card-preference-content">
-                                  {post?.rank}
-                                </div>
-                              </div>
-                              <div className="card-block">
-                                <div className="card-preference-title">
-                                Preferred Bed
-                                </div>
-                                <div className="card-preference-content">
-                                  {post?.preferredBed}
-                                </div>
-                              </div>
-                              <div className="card-bed">
-                                <div className="card-preference-title">
-                                  Block
-                                </div>
-                                <div className="card-preference-content">
-                                  {post?.preferredBlock}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="card-downers2">
-                              <div className="card-year">
-                                <div className="card-preference-title">
-                                  Year
-                                </div>
-                                <div className="card-preference-Year">
-                                  {post?.year}
-                                </div>
-                              </div>
-                              <div className="card-gender">
-                                <div className="card-preference-title">
-                                  Gender
-                                </div>
-                                <div className="card-preference-Gender">
-                                  {post?.gender}
-                                </div>
-                              </div>
+                            <div
+                              className="card-add"
+                              onClick={() =>
+                                RoomLiking(post?._id, post?.gender)
+                              }
+                            >
+                              {likeRoom.includes(post?._id) ? (
+                                <i className="fa-solid fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                              ) : (
+                                <i className="fa-regular fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                              )}
                             </div>
                           </div>
-                        </div>
-                        <div className="card-hr">
-                          <hr />
-                        </div>
-                        <div className="card-habits-section">
-                          <div className="card-habit">
-                            For Description - Click on the button
-                          </div>
-                          <div
-                            className="card-habit-details"
-                            onClick={() => {
-                              selectRoomDetail(post?.desc);
-                              selectRoomPhone(post?.phone);
-                              selectRoomEmail(post?.username);
-                            }}
-                          >
+
+                          <div className="card-preference">
                             <div>
-                              <img
-                                src="./image/desc.png"
-                                alt=""
-                                style={{ height: "18px", width: "18px" }}
-                              />
+                              <div className="card-preference-title">Rank</div>
+                              <div className="card-preference-content">{post?.rank || 'N/A'}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Preferred Bed</div>
+                              <div className="card-preference-content">{post?.preferredBed}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Block</div>
+                              <div className="card-preference-content">{post?.preferredBlock}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Year</div>
+                              <div className="card-preference-content">{post?.year}</div>
+                            </div>
+                            <div>
+                              <div className="card-preference-title">Gender</div>
+                              <div className="card-preference-content">{post?.gender}</div>
+                            </div>
+                          </div>
+
+                          <div className="card-habits-section">
+                            <div
+                              className="card-habit-details"
+                              onClick={() => {
+                                selectRoomDetail(post?.desc);
+                                selectRoomPhone(post?.phone);
+                                selectRoomEmail(post?.username);
+                              }}
+                            >
+                              <i className="fa-regular fa-message"></i> Description
                             </div>
                           </div>
                         </div>
@@ -826,7 +741,7 @@ async function RoomLiking(otherRoomId) {
           </Tab>
         </Tabs>
       </div>
-    </>
+    </div>
   );
 }
 

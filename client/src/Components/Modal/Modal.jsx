@@ -87,8 +87,8 @@ function Modal() {
                   <FontAwesomeIcon icon="fab fa-instagram" />
                   <i class="fab fa-instagram"></i> {instagramUID}
                 </a>
-              <br /><br /></>}
-              
+                <br /><br /></>}
+
               <b>Details: </b>
               <span>
                 {descriptionOnly ? descriptionOnly : <small><i><font color="grey">(empty)</font></i></small>}
@@ -97,9 +97,9 @@ function Modal() {
           </div>
           <button
             onClick={closeModal}
-            className="mx-auto bg-[#06105A] px-[0.75rem] py-[0.1rem] text-white rounded-[4px] self-start disabled:hover:cursor-not-allowed"
+            className="mx-auto bg-[#d98548] hover:bg-[#c77235] px-[2rem] py-[0.5rem] text-white font-[700] rounded-[20px] uppercase tracking-wide transition-all shadow-md self-center disabled:hover:cursor-not-allowed"
           >
-            close
+            Close
           </button>
         </div>
       </div>

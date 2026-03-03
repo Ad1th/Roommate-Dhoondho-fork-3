@@ -13,6 +13,12 @@ import "./NeedRoomComponent.css";
 import Alert from "@mui/material/Alert";
 import secureLocalStorage from "react-secure-storage";
 
+import blob1 from "../../Assets/listing-page/blob1.svg";
+import blob2 from "../../Assets/listing-page/blob2.svg";
+import blob3 from "../../Assets/listing-page/blob3.svg";
+import blob4 from "../../Assets/listing-page/blob4.svg";
+import blob5 from "../../Assets/listing-page/blob5.svg";
+
 import Hotjar from '@hotjar/browser';
 const siteId = 3765543;
 const hotjarVersion = 6;
@@ -28,7 +34,7 @@ export const NeedRoomComponent = () => {
     rank: profileData?.user?.rank,
     // gender: "M",
     bedType: "",
-    PreferredBlocks: ["A"],
+    PreferredBlocks: ["Select Block"],
     contactNumber: profileData?.user?.mobile,
     year: "1",
     description: "",
@@ -39,7 +45,7 @@ export const NeedRoomComponent = () => {
     rank: profileData?.user?.rank,
     // gender: "M",
     noOfBeds: "",
-    PreferredBlocks: ["A"],
+    PreferredBlocks: ["Select Block"],
     contactNumber: profileData?.user?.mobile,
     year: "1",
     description: "",
@@ -65,10 +71,11 @@ export const NeedRoomComponent = () => {
       const userGender = profileData?.user?.gender;
 
       if (userGender === 'F') {
-        setBlocks(["A", "B", "C", "D", "E", "F", "G", "H"]);
+        setBlocks(["Select Block", "A", "B", "C", "D", "E", "F", "G", "H"]);
         setShowPlaceholder(false);
       } else if (userGender === 'M') {
         setBlocks([
+          "Select Block",
           "A",
           "B",
           "B ANNEX",
@@ -227,7 +234,7 @@ export const NeedRoomComponent = () => {
         phone: profileData.user.mobile,
         year: needRoomForm?.year,
         desc: needRoomForm?.description,
-        remaining:needRoomForm?.remaining
+        remaining: needRoomForm?.remaining
       };
 
       let result = await axios.post(
@@ -260,7 +267,7 @@ export const NeedRoomComponent = () => {
       phone: profileData.user.mobile,
       year: needRoomMateForm?.year,
       desc: `${needRoomMateForm?.Insta ? 'Insta: ' + needRoomMateForm?.Insta + ' | ' + '\n' : ''}${needRoomMateForm?.description}`,
-      remaining:needRoomMateForm?.remaining,
+      remaining: needRoomMateForm?.remaining,
       // instagram: needRoomMateForm?.Insta
     };
 
@@ -317,7 +324,7 @@ export const NeedRoomComponent = () => {
     ) {
       toast.error("Please enter valid bed type (1, 2, 3, 4, 6, 8)");
       return false;
-    } 
+    }
     // else if (
     //   !needRoomForm["contactNumber"] ||
     //   !indianNumberRegex.test(needRoomForm["contactNumber"]) ||
@@ -354,7 +361,7 @@ export const NeedRoomComponent = () => {
         toast.error("Please enter a valid bed type");
         return false;
       }
-    } 
+    }
     // else if (needRoomForm["contactNumber"]) {
     //   let isContactNumberValid = indianNumberRegex.test(
     //     needRoomForm["contactNumber"]
@@ -363,11 +370,14 @@ export const NeedRoomComponent = () => {
     //     toast.error("Please enter a valid Contact number");
     //     return false;
     //   }
-    // } 
+    else if (!needRoomForm["PreferredBlocks"] || needRoomForm["PreferredBlocks"][0] === "Select Block") {
+      toast.error("Please select a preferred block first");
+      return false;
+    }
     else if (needRoomForm["PreferredBlocks"]) {
       let isValid = areValuesUnique(needRoomForm["PreferredBlocks"]);
       if (!isValid) {
-        toast.error("Please choose block");
+        toast.error("Blocks must be unique");
         return false;
       }
     }
@@ -387,7 +397,7 @@ export const NeedRoomComponent = () => {
     ) {
       toast.error("Please enter a valid number of beds (1, 2, 3, 4, 6, 8)");
       return false;
-    } 
+    }
     // else if (
     //   !needRoomMateForm["contactNumber"] ||
     //   !indianNumberRegex.test(needRoomMateForm["contactNumber"]) ||
@@ -422,7 +432,7 @@ export const NeedRoomComponent = () => {
         toast.error("Please enter a valid number of beds (1, 2, 3, 4, 6, 8)");
         return false;
       }
-    } 
+    }
     // else if (needRoomMateForm["contactNumber"]) {
     //   let isContactNumberValid = indianNumberRegex.test(
     //     needRoomMateForm["contactNumber"]
@@ -431,11 +441,14 @@ export const NeedRoomComponent = () => {
     //     toast.error("Please enter a valid Contact number");
     //     return false;
     //   }
-    // } 
+    else if (!needRoomMateForm["PreferredBlocks"] || needRoomMateForm["PreferredBlocks"][0] === "Select Block") {
+      toast.error("Please select a preferred block first");
+      return false;
+    }
     else if (needRoomMateForm["PreferredBlocks"]) {
       let isValid = areValuesUnique(needRoomMateForm["PreferredBlocks"]);
       if (!isValid) {
-        toast.error("Please choose block");
+        toast.error("Blocks must be unique");
         return false;
       }
     }
@@ -458,9 +471,16 @@ export const NeedRoomComponent = () => {
   };
 
   return (
-    <Fragment>
+    <div style={{ position: "relative", overflow: "hidden", minHeight: "100vh" }}>
+      <div className="listing-background">
+        <img src={blob1} alt="" className="blob b1" />
+        <img src={blob2} alt="" className="blob b2" />
+        <img src={blob3} alt="" className="blob b3" />
+        <img src={blob4} alt="" className="blob b4" />
+        <img src={blob5} alt="" className="blob b5" />
+      </div>
       <Navbar />
-      <div className="m-auto w-[90vw]">
+      <div className="m-auto w-[90vw] relative z-10">
         {/* navbar */}
         <div className="flex pt-4 pb-2 px-2 border-b-2 border-[#7E8490]">
           <div
@@ -474,9 +494,8 @@ export const NeedRoomComponent = () => {
               src={needRoom ? BoldBed : Bed}
             />
             <span
-              className={`${
-                needRoom ? "border-b-2 border-b-[#000] font-[600]" : ""
-              } pb-1`}
+              className={`${needRoom ? "border-b-2 border-b-[#000] font-[600]" : ""
+                } pb-1`}
             >
               Need Room
             </span>
@@ -491,9 +510,8 @@ export const NeedRoomComponent = () => {
               src={!needRoom ? BoldPeople : People}
             />
             <span
-              className={`${
-                !needRoom ? "border-b-2 border-b-[#000] font-[600]" : ""
-              } pb-1`}
+              className={`${!needRoom ? "border-b-2 border-b-[#000] font-[600]" : ""
+                } pb-1`}
             >
               Need Roommates
             </span>
@@ -528,28 +546,28 @@ export const NeedRoomComponent = () => {
           </div>
         ) : needRoom ? (
           <div className="w-[100%]">
-            <h1 className="mb-4 mt-5">Looking for Room</h1>
+            <h1 className="mb-6 mt-5 text-[24px] font-[800] text-[#06105A] uppercase tracking-wide">Looking for Room</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 gap:4  md:gap:4 lg:gap-8">
               <div
                 style={{ gridAutoRows: "120px" }}
                 className="grid grid-cols-1 items-center"
               >
                 <div className="flex flex-col mb-6 md:mr-4">
-                  <span>Your Rank *</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Your Rank *</span>
                   <input
                     name="rank"
                     value={needRoomForm["rank"]}
                     onChange={needRoomFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 <div className="flex flex-col mb-6 md:mr-4">
-                  <span>Preferred Bed Type*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Preferred Bed Type*</span>
                   <input
                     name="bedType"
                     value={needRoomForm["bedType"]}
                     onChange={needRoomFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 {/* <div className="flex flex-col mb-6 md:mr-4">
@@ -558,16 +576,16 @@ export const NeedRoomComponent = () => {
                     name="contactNumber"
                     value={needRoomForm["contactNumber"]}
                     onChange={needRoomFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div> */}
                 <div className="flex md:hidden flex-col mb-6 ">
-                  <span>Year*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Year*</span>
                   <input
                     name="year"
                     value={needRoomForm["year"]}
                     onChange={needRoomFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
               </div>
@@ -578,7 +596,7 @@ export const NeedRoomComponent = () => {
                 <div className="containerr max-h-[80px]">
                   <div className="label">Preferred Block*</div>
                   <div className="flex gap-6">
-                    <div className="bg-[#D9D9D9] rounded-[10px] flex items-center">
+                    <div className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] rounded-[10px] flex items-center shadow-sm">
                       <select
                         name="prefferedBlocks"
                         value={needRoomForm["PreferredBlocks"][0]}
@@ -594,7 +612,7 @@ export const NeedRoomComponent = () => {
                       </select>
                     </div>
 
-                    <div className="hidden bg-[#D9D9D9] rounded-[10px] flex items-center ">
+                    <div className="hidden bg-[#ffffff] border-[1.5px] border-[#c5c8d0] rounded-[10px] flex items-center shadow-sm">
                       <select
                         name="prefferedBlocks"
                         value={needRoomForm["PreferredBlocks"][1]}
@@ -610,7 +628,7 @@ export const NeedRoomComponent = () => {
                       </select>
                     </div>
 
-                    <div className="hidden bg-[#D9D9D9] rounded-[10px] flex items-center">
+                    <div className="hidden bg-[#ffffff] border-[1.5px] border-[#c5c8d0] rounded-[10px] flex items-center shadow-sm">
                       <select
                         name="prefferedBlocks"
                         value={needRoomForm["PreferredBlocks"][2]}
@@ -628,12 +646,12 @@ export const NeedRoomComponent = () => {
                   </div>
                 </div>
                 <div className="hidden md:flex flex-col mb-6 ">
-                  <span>Year*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Year*</span>
                   <input
                     name="year"
                     value={needRoomForm["year"]}
                     onChange={needRoomFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 {/* <div className="flex flex-col mb-6 md:mr-4">
@@ -642,7 +660,7 @@ export const NeedRoomComponent = () => {
                     name="remaining"
                     value={needRoomForm["remaining"]}
                     onChange={needRoomFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div> */}
               </div>
@@ -651,8 +669,9 @@ export const NeedRoomComponent = () => {
               <div className="label">Description</div>
               <textarea
                 rows="3"
-                className="w-[100%] focus:border-none outline-none"
+                className="w-[100%] bg-transparent focus:border-none outline-none resize-none text-[#333] font-[500] placeholder-[#a0a3ab]"
                 name="description"
+                placeholder="Tell us a bit about yourself..."
                 value={needRoomForm["description"]}
                 onChange={needRoomFormOnChangeHandler}
               ></textarea>
@@ -660,7 +679,7 @@ export const NeedRoomComponent = () => {
             <div className="w-[100%] flex justify-center mb-6 mt-6">
               <button
                 onClick={needRoomSubmitHandler}
-                className="mx-auto bg-[#06105A] px-[2rem] py-[0.75rem] text-white rounded-[8px] self-start disabled:hover:cursor-not-allowed"
+                className="mx-auto bg-[#d98548] hover:bg-[#c77235] px-[2.5rem] py-[0.75rem] text-white font-[700] rounded-[12px] uppercase tracking-wide transition-all shadow-md self-start disabled:hover:cursor-not-allowed"
               >
                 {" "}
                 Submit
@@ -669,37 +688,37 @@ export const NeedRoomComponent = () => {
           </div>
         ) : (
           <div className="w-[100%]">
-            <h1 className="mb-4 mt-5">Have Room & looking for Roommate</h1>
+            <h1 className="mb-6 mt-5 text-[24px] font-[800] text-[#06105A] uppercase tracking-wide">Have Room & Looking for Roommate</h1>
             <div className="grid grid-cols-1 md:grid-cols-2  md:gap:4 lg:gap-8">
               <div
                 style={{ gridAutoRows: "120px" }}
                 className="grid grid-cols-1 items-center"
               >
                 <div className="flex flex-col mb-6">
-                  <span>Your Rank *</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Your Rank *</span>
                   <input
                     name="rank"
                     value={needRoomMateForm["rank"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 <div className="flex flex-col mb-6">
-                  <span>No of Beds*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">No of Beds*</span>
                   <input
                     name="noOfBeds"
                     value={needRoomMateForm["noOfBeds"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 <div className="flex flex-col mb-6">
-                  <span>Instagram Account (optional and only username)</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Instagram Account (optional)</span>
                   <input
                     name="Insta"
                     value={needRoomMateForm["Insta"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 {/* <div className="flex flex-col mb-6">
@@ -708,16 +727,16 @@ export const NeedRoomComponent = () => {
                     name="contactNumber"
                     value={needRoomMateForm["contactNumber"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div> */}
                 <div className="flex md:hidden flex-col mb-6 ">
-                  <span>Year*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Year*</span>
                   <input
                     name="year"
                     value={needRoomMateForm["year"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
               </div>
@@ -728,7 +747,7 @@ export const NeedRoomComponent = () => {
                 <div className="containerr max-h-[80px]">
                   <div className="label">Preferred Block*</div>
                   <div className="flex gap-6">
-                    <div className="bg-[#D9D9D9] rounded-[10px] flex items-center">
+                    <div className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] rounded-[10px] flex items-center shadow-sm">
                       <select
                         name="prefferedBlocks"
                         value={needRoomMateForm["PreferredBlocks"][0]}
@@ -744,7 +763,7 @@ export const NeedRoomComponent = () => {
                       </select>
                     </div>
 
-                    <div className="hidden bg-[#D9D9D9] rounded-[10px] flex items-center ">
+                    <div className="hidden bg-[#ffffff] border-[1.5px] border-[#c5c8d0] rounded-[10px] flex items-center shadow-sm">
                       <select
                         name="prefferedBlocks"
                         value={needRoomMateForm["PreferredBlocks"][1]}
@@ -760,7 +779,7 @@ export const NeedRoomComponent = () => {
                       </select>
                     </div>
 
-                    <div className="hidden bg-[#D9D9D9] rounded-[10px] flex items-center">
+                    <div className="hidden bg-[#ffffff] border-[1.5px] border-[#c5c8d0] rounded-[10px] flex items-center shadow-sm">
                       <select
                         name="prefferedBlocks"
                         value={needRoomMateForm["PreferredBlocks"][2]}
@@ -778,21 +797,21 @@ export const NeedRoomComponent = () => {
                   </div>
                 </div>
                 <div className="hidden md:flex flex-col mb-6 ">
-                  <span>Year*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Year*</span>
                   <input
                     name="year"
                     value={needRoomMateForm["year"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
                 <div className="flex flex-col mb-6 md:mr-4">
-                  <span>Vacancy*</span>
+                  <span className="text-[#666] font-[600] text-[11px] uppercase tracking-wide ml-2">Vacancy*</span>
                   <input
                     name="remaining"
                     value={needRoomMateForm["remaining"]}
                     onChange={needRoomMateFormOnChangeHandler}
-                    className="bg-[#D9D9D9] rounded-[8px] mt-1 h-[3rem] p-4"
+                    className="bg-[#ffffff] border-[1.5px] border-[#c5c8d0] text-[#333] font-[600] focus:border-[#d98548] focus:outline-none rounded-[10px] mt-1 h-[3rem] p-4 transition-all shadow-sm"
                   />
                 </div>
               </div>
@@ -801,8 +820,9 @@ export const NeedRoomComponent = () => {
               <div className="label">Description</div>
               <textarea
                 rows="3"
-                className="w-[100%] focus:border-none outline-none"
+                className="w-[100%] bg-transparent focus:border-none outline-none resize-none text-[#333] font-[500] placeholder-[#a0a3ab]"
                 name="description"
+                placeholder="Tell us a bit about yourself and the room..."
                 value={needRoomMateForm["description"]}
                 onChange={needRoomMateFormOnChangeHandler}
               ></textarea>
@@ -810,7 +830,7 @@ export const NeedRoomComponent = () => {
             <div className="w-[100%] flex justify-center mb-6 mt-6">
               <button
                 onClick={needRoomMateSubmitHandler}
-                className="mx-auto bg-[#06105A] px-[2rem] py-[0.75rem] text-white rounded-[8px] self-start disabled:hover:cursor-not-allowed"
+                className="mx-auto bg-[#d98548] hover:bg-[#c77235] px-[2.5rem] py-[0.75rem] text-white font-[700] rounded-[12px] uppercase tracking-wide transition-all shadow-md self-start disabled:hover:cursor-not-allowed"
               >
                 {" "}
                 Submit
@@ -819,8 +839,10 @@ export const NeedRoomComponent = () => {
           </div>
         )}
       </div>
-      <Footer />
-    </Fragment>
+      <div className="relative z-10">
+        <Footer />
+      </div>
+    </div>
   );
 };
 

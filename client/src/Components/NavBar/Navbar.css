@@ -52,68 +52,52 @@
   font-size: 1.2rem;
 }
 
-.nav-links button {
-  background-color: #ffffff;
+.bookmarks-icon, .user-icon, .logout-icon {
   display: flex;
-  flex-wrap: wrap;
-  height: 40px;
-  width: 132px;
-  padding: 0;
-  border: 1.5px solid #06105a;
-  outline: none;
-  border-radius: 8px;
-  overflow: hidden;
-  color: #06105a;
-  font-family: "Causten-Medium", Helvetica;
-  font-size: 15px;
-  font-weight: 500;
-  padding: 0 4px;
-}
-.button_text,
-.button_icon {
-  display: inline-flex;
-  font-family: "Causten-Medium", Helvetica;
   align-items: center;
-  gap: 10px;
-  padding: 0 0 0 10px;
-  height: 100%;
-}
-.blue {
-  height: 16px;
-  width: 16px;
-  padding: 0 0 0 8px;
-  color: #06105a;
-}
-.white {
-  height: 16px;
-  width: 16px;
-  padding: 0 0 0 8px;
-  color: #ffffff;
 }
 
-.bookmarks {
-  height: 40px;
-  width: 40px;
-  background-image: url("/public/image/bookmark.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.nav-btn {
+  background-color: #d98548;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
-.user {
-  height: 40px;
-  width: 40px;
-  background-image: url("/public/image/user.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
+.icon-btn {
+  background-color: #d98548;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  width: 44px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
 }
-.logout {
-  height: 40px;
-  width: 40px;
-  background-image: url("/public/image/LogOut Butten.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+
+.nav-btn:hover, .icon-btn:hover {
+  background-color: #c77235;
+}
+
+.white-icon {
+  color: white;
 }
 .fa-firstdraft {
   margin-left: 0.5rem;
@@ -121,13 +105,14 @@
 }
 
 .nav-menu {
-  display: grid;
-  grid-template-columns: repeat(8, auto);
-  grid-gap: 8px;
+  display: flex;
+  gap: 12px;
   list-style: none;
   text-align: center;
   width: 100vw;
-  justify-content: end;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 20px;
 }
 
 .nav-item {

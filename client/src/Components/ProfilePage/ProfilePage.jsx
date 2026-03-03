@@ -22,6 +22,13 @@ import secureLocalStorage from "react-secure-storage";
 
 import Hotjar from '@hotjar/browser';
 import { Helmet } from "react-helmet";
+import blob1 from "../../Assets/profile-page/blob1.svg";
+import blob2 from "../../Assets/profile-page/blob2.svg";
+import blob3 from "../../Assets/profile-page/blob3.svg";
+import blob4 from "../../Assets/profile-page/blob4.svg";
+import blob5 from "../../Assets/profile-page/blob5.svg";
+import boy from "../../Assets/profile-page/profile-boy.png"
+
 const siteId = 3765543;
 const hotjarVersion = 6;
 Hotjar.init(siteId, hotjarVersion);
@@ -44,7 +51,7 @@ const Profilepage = () => {
   const [openConfirmation, setOpenConfirmation] = useState(false);
   const [formEvent, setFormEvent] = useState(null);
   const [showInfoLabel, setShowInfoLabel] = useState(false);
-const isGenderEditable = !gender || gender === "" || gender === null;  // const [password, setPassword] = useState("");
+  const isGenderEditable = !profileData?.user?.gender || profileData.user.gender === "" || profileData.user.gender === null;
   const [isLoading, setIsLoading] = useState(true);
   const [isListingButtonActive, setIsListingButtonActive] = useState(false);
   const [serverMessage, setServerMessage] = useState(null);
@@ -115,14 +122,14 @@ const isGenderEditable = !gender || gender === "" || gender === null;  // const 
     setOpenConfirmation(false);
 
     console.log("hi");
-    console.log("g1: ",gender);
+    console.log("g1: ", gender);
     if (confirmed && formEvent && gender) {
       console.log("Submitting form with gender:", gender);
       submituserRegistrationForm(formEvent, gender);
       secureLocalStorage.setItem("isProfileComplete", true);
     }
   };
-  
+
   const handleListingButtonClick = () => {
     navigate('/need');
   };
@@ -167,8 +174,8 @@ const isGenderEditable = !gender || gender === "" || gender === null;  // const 
         console.error("Error fetching additional data:", error);
         setIsLoading(false);
       });
-  },[]);
-  
+  }, []);
+
   const [fields, setFields] = useState({});
 
   const [errors, setErrors] = useState({});
@@ -303,33 +310,48 @@ const isGenderEditable = !gender || gender === "" || gender === null;  // const 
 
   return (
     <>
-      <div>
-        <Navbar />
-      </div>
-      {isLoading ? (
-        <div className="loading-indicator-container">
-          <CircularProgress disableShrink color="primary" size={40} />
+      <div style={{ position: "relative", minHeight: "100vh" }}>
+        <div className="listing-background">
+          <img src={blob1} alt="" className="blob b1" />
+          <img src={blob2} alt="" className="blob b2" />
+          <img src={blob3} alt="" className="blob b3" />
+          <img src={blob4} alt="" className="blob b4" />
+          <img src={blob5} alt="" className="blob b5" />
         </div>
-        ) : (
         <div>
-          <div className="profile">
-            <div className="profiletab-main">
-              <div className="profile-buttons">
-                <button className="activeprofile">
-                  <p className="profile-text">Profile</p>
-                </button>
+          <Navbar />
+        </div>
+        {isLoading ? (
+          <div className="loading-indicator-container">
+            <CircularProgress disableShrink color="primary" size={40} />
+          </div>
+        ) : (
+          <>
+            <div className="profile relative z-10">
+              <div className="profiletab-main">
+                <div className="profile-buttons">
+                  <button className="activeprofile">
+                    <p className="profile-text">Profile</p>
+                  </button>
+                </div>
+                <div className="profiletab-hr">
+                  <hr />
+                </div>
               </div>
-              <div className="profiletab-hr">
-                <hr />
-              </div>
-            </div>
-            <div>
-              <div>
-                <div id="main-registration-container">
-                  <div id="register">
+              <div className="profile-split-container">
+                <div className="profile-left-box">
+                  <div className="avatar-wrapper">
+                    <img src={boy} alt="Avatar" />
+                  </div>
+                  <h2 className="hello-text">Hello There!</h2>
+                </div>
+
+                <div className="profile-right-box">
+                  <h3 className="box-heading">Other Details</h3>
                   <form
                     method="post"
                     name="userRegistrationForm"
+                    className="profile-form-grid"
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (validateForm()) {
@@ -342,216 +364,137 @@ const isGenderEditable = !gender || gender === "" || gender === null;  // const 
                     }}
                   >
                     {showInfoLabel && (
-                      <Alert severity="info" onClose={() => setShowInfoLabel(false)}>
-                        You can set your gender only ONCE. Once set, it can't be changed. 
+                      <Alert severity="info" onClose={() => setShowInfoLabel(false)} style={{ gridColumn: '1 / -1' }}>
+                        You can set your gender only ONCE. Once set, it can't be changed.
                         Email id cannot be changed.
                       </Alert>
                     )}
-                      <div className="form-section-1">
-                        <div className="form-section-1a">
-                          <label>First Name*</label>
-                          <input
-                            type="text"
-                            name="firstname"
-                            value={firstName || profileData?.user?.firstname}
-                            onChange={(e) => { 
-                              handleChange(e);
-                              setFirstName(e.target.value);
-                              setChangesMade(true);
-                            }}
-                          />
-                          <div className="errorMsg">{errors.firstname}</div>
-                        </div>
-                        <div className="form-section-1b">
-                          <label>Last Name*</label>
-                          <input
-                            type="text"
-                            name="lastname"
-                            value={lastName || profileData?.user?.lastname}
-                            onChange={(e) => {
-                              handleChange(e);
-                              setLastName(e.target.value);
-                              setChangesMade(true);
-                            }}
-                          />
-                          <div className="errorMsg">{errors.lastname}</div>
-                        </div>
-                      </div>
-                      <div className="form-section-3">
-                        <div className="input-group">
-                          <div className="flex">
-                            <label>Gender*</label>
-                            {/* <span className="form-section-3-border">
-                              <div
-                                data-gender="M"
-                                name="gender"
-                                className={`mr-6  bg-[#D9D9D9] rounded-[10px] py-2 px-8 text-center cursor-pointer female ${
-                                  fields.gender === "M"
-                                    ? "border-2 border-black"
-                                    : ""
-                                }`}
-                                onClick={(e) => {
-                                  handleChange({
-                                    target: { name: "gender", value: "M" },
-                                  });
-                                  setGender("M");
-                                  setChangesMade(true);
-                                }}
-                              >
-                                M
-                              </div>
-                              <div
-                                data-gender="F"
-                                name="gender"
-                                className={`bg-[#D9D9D9] rounded-[10px] py-2 px-8 text-center cursor-pointer female ${
-                                  fields.gender === "F"
-                                    ? "border-2 border-black"
-                                    : ""
-                                }`}
-                                onClick={(e) => {
-                                  handleChange({
-                                    target: { name: "gender", value: "F" },
-                                  });
-                                  setGender("F");
-                                  setChangesMade(true);
-                                }}
-                              >
-                                F
-                              </div>
-                            </span> */}
-                            <span className="form-section-3-border">
-                              <div
-                                data-gender="M"
-                                name="gender"
-                                className={`mr-6  bg-[#D9D9D9] rounded-[10px] py-2 px-8 text-center cursor-pointer female ${
-                                  fields.gender === "M" || profileData?.user?.gender === "M" ? "border-2 border-black" : ""
-                                }`}
-                                onClick={(e) => {
-                                  if (isGenderEditable) {
-                                    handleChange({
-                                      target: { name: "gender", value: "M" },
-                                    });
-                                    setGender("M");
-                                    setChangesMade(true);
-                                  }
-                                }}
-                              >
-                                M
-                              </div>
-                              <div
-                                data-gender="F"
-                                name="gender"
-                                className={`bg-[#D9D9D9] rounded-[10px] py-2 px-8 text-center cursor-pointer female ${
-                                  fields.gender === "F" || profileData?.user?.gender === "F"? "border-2 border-black" : ""
-                                }`}
-                                onClick={(e) => {
-                                  if (isGenderEditable) {
-                                    handleChange({
-                                      target: { name: "gender", value: "F" },
-                                    });
-                                    setGender("F");
-                                    setChangesMade(true);
-                                  }
-                                }}
-                              >
-                                F
-                              </div>
-                            </span>
-                          </div>
-                          <div className="errorMsg">{errors.gender}</div>
-                        </div>
 
-                        <div className="form-section-3b">
-                          <label>Registration Number*</label>
-                          <input
-                            type="text"
-                            name="regnum"
-                            value={regnum}
-                            onChange={(e) => {
-                              handleChange(e);
-                              setRegNumber(e.target.value);
-                              setChangesMade(true);
-                            }}
-                          />
-                          <div className="errorMsg">{errors.regnum}</div>
-                        </div>
-                      </div>
-                      <div className="form-section-2">
-                        <div className="form-section-2a">
-                          <label>Email*</label>
-                          <input
-                            type="label"
-                            name="emailid"
-                            value={email}
-                            onChange={(e) => {
-                              // handleChange(e);
-                              // setEmail(e.target.value);
-                              setChangesMade(true);
-                            }}
-                          />
-                          {/* <div className="errorMsg">{errors.emailid}</div> */}
-                        </div>
-                        <div className="form-section-2b">
-                          <label>Contact Number*</label>
-                          <input
-                            type="text"
-                            name="mobileno"
-                            value={contactNumber}
-                            onChange={(e) => {
-                              handleChange(e);
-                              setContactNumber(e.target.value);
-                              setChangesMade(true);
-                            }}
-                          />
-                          <div className="errorMsg">{errors.mobileno}</div>
-                        </div>
-                        {/* <div className="form-section-6">
-                          <label>Password*</label>
-                          <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={handleChangePassword}
-                          />
-                          <div className="handlereset">
-                            <span onClick={handleResetPasswordClick}>
-                              Reset Password
-                            </span>
-                          </div>
-                        </div> */}
-                      </div>
-                      <div className="form-section-4">
-                        {changesMade && (
-                          <button className="mx-auto bg-[#06105A] px-[2.5rem] py-[0.75rem] text-white rounded-[8px] self-start disabled:hover:cursor-not-allowed">
-                            Submit
-                          </button>
-                        )}
-                      </div>
-                      {notification && (
-                        <div
-                          className={
-                            notification.startsWith("Error")
-                              ? "error-notification"
-                              : "success-notification"
-                          }
-                        >
-                          {notification}
-                        </div>
-                      )}
-                    </form>
-                    <div className="form-section-5">
-                      <hr />
+                    <div className="form-group">
+                      <label>First Name*</label>
+                      <input
+                        type="text"
+                        name="firstname"
+                        value={firstName === "" && profileData?.user?.firstname ? profileData.user.firstname : firstName}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setFirstName(e.target.value);
+                          setChangesMade(true);
+                        }}
+                      />
+                      <div className="errorMsg">{errors.firstname}</div>
                     </div>
-                  </div>
+
+                    <div className="form-group">
+                      <label>Last Name*</label>
+                      <input
+                        type="text"
+                        name="lastname"
+                        value={lastName === "" && profileData?.user?.lastname ? profileData.user.lastname : lastName}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setLastName(e.target.value);
+                          setChangesMade(true);
+                        }}
+                      />
+                      <div className="errorMsg">{errors.lastname}</div>
+                    </div>
+
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label>Gender*</label>
+                      <div className="gender-toggle">
+                        <div
+                          name="gender"
+                          className={`gender-btn ${(fields.gender === "M" || profileData?.user?.gender === "M") ? "selected" : ""}`}
+                          onClick={(e) => {
+                            if (isGenderEditable) {
+                              handleChange({ target: { name: "gender", value: "M" } });
+                              setGender("M");
+                              setChangesMade(true);
+                            }
+                          }}
+                        >
+                          M
+                        </div>
+                        <div
+                          name="gender"
+                          className={`gender-btn ${(fields.gender === "F" || profileData?.user?.gender === "F") ? "selected" : ""}`}
+                          onClick={(e) => {
+                            if (isGenderEditable) {
+                              handleChange({ target: { name: "gender", value: "F" } });
+                              setGender("F");
+                              setChangesMade(true);
+                            }
+                          }}
+                        >
+                          F
+                        </div>
+                      </div>
+                      <div className="errorMsg">{errors.gender}</div>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Registration Number*</label>
+                      <input
+                        type="text"
+                        name="regnum"
+                        value={regnum}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setRegNumber(e.target.value);
+                          setChangesMade(true);
+                        }}
+                      />
+                      <div className="errorMsg">{errors.regnum}</div>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Contact Number*</label>
+                      <input
+                        type="text"
+                        name="mobileno"
+                        value={contactNumber}
+                        onChange={(e) => {
+                          handleChange(e);
+                          setContactNumber(e.target.value);
+                          setChangesMade(true);
+                        }}
+                      />
+                      <div className="errorMsg">{errors.mobileno}</div>
+                    </div>
+
+                    <div className="form-group" style={{ gridColumn: '1 / -1' }}>
+                      <label>Email ID*</label>
+                      <input
+                        type="text"
+                        name="emailid"
+                        value={email || ''}
+                        onChange={(e) => { setChangesMade(true); }}
+                        readOnly
+                      />
+                    </div>
+
+                    {changesMade && (
+                      <div className="form-submit-container" style={{ gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end', marginTop: '1rem' }}>
+                        <button className="submit-btn" style={{ backgroundColor: "#d98548", color: "#fff", padding: "10px 40px", borderRadius: "10px", fontWeight: "bold" }}>
+                          FINISH
+                        </button>
+                      </div>
+                    )}
+                    {notification && (
+                      <div style={{ gridColumn: '1 / -1' }} className={notification.startsWith("Error") ? "error-notification" : "success-notification"}>
+                        {notification}
+                      </div>
+                    )}
+                  </form>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="listing">
-            <div className="listing-buttons">
-              <button className="activelisting">
-                <p className="listing-text">Your Listing</p>
-                {/* <div className="add-button">
+            <div className="listing">
+              <div className="listing-buttons">
+                <button className="activelisting">
+                  <p className="listing-text">Your Listing</p>
+                  {/* <div className="add-button">
                   <button
                     className={`add-button-inner ${isListingButtonActive ? 'active' : ''}`}
                     onClick={handleListingButtonClick}
@@ -562,35 +505,24 @@ const isGenderEditable = !gender || gender === "" || gender === null;  // const 
                     +
                   </button>
                 </div> */}
-              </button>
-            </div>
-            <div className="tab-content">
-              <div className="cards">
-                <DisplayRoommateListingCard />
-                <DisplayRoomListingCard />
+                </button>
               </div>
+              <div className="tab-content">
+                <div className="cards">
+                  <DisplayRoommateListingCard />
+                  <DisplayRoomListingCard />
+                </div>
+              </div>
+              {serverMessage && (
+                <Alert severity={serverMessage.severity || "info"}>
+                  <strong>{serverMessage.title}</strong>
+                  <br />
+                  {serverMessage.desc}
+                </Alert>
+              )}
             </div>
-            {serverMessage && (
-            <Alert severity={serverMessage.severity || "info"}>
-              <strong>{serverMessage.title}</strong>
-              <br />
-              {serverMessage.desc}
-            </Alert>
-          )}
-          </div>
-        </div>
-      )}
-      
-      <div>
-        <p>
-          <center>
-            <a href="https://vimeo.com/891016429" target="_blank">
-              How to use this app:{' '}
-              
-                Demo
-            </a>
-          </center>
-        </p>
+          </>
+        )}
       </div>
 
       <div>
