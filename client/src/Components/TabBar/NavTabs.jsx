@@ -490,7 +490,7 @@ function DisplayRoommateCard() {
                           </div>
                           <div className="card-preference">
                             <div>
-                              <div className="card-preference-title">CGPA</div>
+                              <div className="card-preference-title">Rank</div>
                               <div className="card-preference-content">{post?.rank || '8.98'}</div>
                             </div>
                             <div>
@@ -504,10 +504,6 @@ function DisplayRoommateCard() {
                             <div>
                               <div className="card-preference-title">Preferred Blocks</div>
                               <div className="card-preference-content">{post?.preferredBlock || 'A B'}</div>
-                            </div>
-                            <div>
-                              <div className="card-preference-title">AC/NAC</div>
-                              <div className="card-preference-content">NAC</div>
                             </div>
                             <div>
                               <div className="card-preference-title">Vacancy</div>
