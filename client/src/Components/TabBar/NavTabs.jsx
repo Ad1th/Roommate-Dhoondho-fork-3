@@ -214,20 +214,18 @@ function DisplayRoommateCard() {
             Promise.all(roommatePostsWithUserDetailsPromises),
             Promise.all(roomPostsWithUserDetailsPromises),
           ]);
-
-        setRoommatePosts(roommatePostsWithUserDetails);
-        setRoomPosts(roomPostsWithUserDetails);
+        console.log("Roommate posts:", roommatePostsWithUserDetails);
+        setRoommatePosts(roommatePostsWithUserDetails.filter(Boolean));
+        setRoomPosts(roomPostsWithUserDetails.filter(Boolean));
 
         setroomLengthPosts(roomLengthPosts);
         setroommateLengthPosts(roommateLengthPosts);
-        setIsLoading(false);
         setTotalPages(Math.ceil(roomLengthPosts.length / perPage));
         setTotalPagesroommate(Math.ceil(roommateLengthPosts.length / perPage));
         console.log(totalPages);
         console.log("current:", page);
       } catch (error) {
         console.error(error);
-        setIsLoading(false);
       } finally {
         setIsLoading(false); // Set loading back to false when all posts are fetched
       }
@@ -455,78 +453,80 @@ function DisplayRoommateCard() {
                   </p>
                 </div>
               ) : (
-                roommatePosts.map((post) => (
-                  <div className="each-card" key={post?.id}>
-                    <span className="cards">
-                      <div className="main-card">
-                        <div
-                          className="card-img"
-                          style={{
-                            backgroundImage: `url(${boysListingImg})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        ></div>
-                        <div className="card-info">
-                          <div className="card-informatios">
-                            <div className="card-name">
-                              {post?.userDetails?.firstname }{" "}
-                              {post?.userDetails?.lastname }
-                            </div>
-                            {userGender && (
-                              <div
-                                className="card-add"
-                                onClick={() =>
-                                  likeRoommate(post?._id, post?.gender)
-                                }
-                              >
-                                {following.includes(post?._id) ? (
-                                  <i className="fa-solid fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
-                                ) : (
-                                  <i className="fa-regular fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
-                                )}
+                roommatePosts
+                  .filter(post => post && post.userDetails)
+                  .map((post) => (
+                    <div className="each-card" key={post?._id}>
+                      <span className="cards">
+                        <div className="main-card">
+                          <div
+                            className="card-img"
+                            style={{
+                              backgroundImage: `url(${boysListingImg})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center",
+                            }}
+                          ></div>
+                          <div className="card-info">
+                            <div className="card-informatios">
+                              <div className="card-name">
+                                {post?.userDetails?.firstname}{" "}
+                                {post?.userDetails?.lastname}
                               </div>
-                            )}
-                          </div>
-                          <div className="card-preference">
-                            <div>
-                              <div className="card-preference-title">Rank</div>
-                              <div className="card-preference-content">{post?.rank}</div>
+                              {userGender && (
+                                <div
+                                  className="card-add"
+                                  onClick={() =>
+                                    likeRoommate(post?._id, post?.gender)
+                                  }
+                                >
+                                  {following.includes(post?._id) ? (
+                                    <i className="fa-solid fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                                  ) : (
+                                    <i className="fa-regular fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                                  )}
+                                </div>
+                              )}
                             </div>
-                            <div>
-                              <div className="card-preference-title">Preferred Bed</div>
-                              <div className="card-preference-content">{post?.preferredBed}</div>
+                            <div className="card-preference">
+                              <div>
+                                <div className="card-preference-title">Rank</div>
+                                <div className="card-preference-content">{post?.rank}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Preferred Bed</div>
+                                <div className="card-preference-content">{post?.preferredBed}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Year</div>
+                                <div className="card-preference-content">{post?.year}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Preferred Blocks</div>
+                                <div className="card-preference-content">{post?.preferredBlock}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Vacancy</div>
+                                <div className="card-preference-content">{post?.remaining}</div>
+                              </div>
                             </div>
-                            <div>
-                              <div className="card-preference-title">Year</div>
-                              <div className="card-preference-content">{post?.year}</div>
-                            </div>
-                            <div>
-                              <div className="card-preference-title">Preferred Blocks</div>
-                              <div className="card-preference-content">{post?.preferredBlock }</div>
-                            </div>
-                            <div>
-                              <div className="card-preference-title">Vacancy</div>
-                              <div className="card-preference-content">{post?.remaining}</div>
-                            </div>
-                          </div>
-                          <div className="card-habits-section">
-                            <div
-                              className="card-habit-details"
-                              onClick={() => {
-                                selectRoommateDetail(post?.desc);
-                                selectRoommatePhone(post?.phone);
-                                selectRoommateEmail(post?.username);
-                              }}
-                            >
-                              <i className="fa-regular fa-message"></i> Description
+                            <div className="card-habits-section">
+                              <div
+                                className="card-habit-details"
+                                onClick={() => {
+                                  selectRoommateDetail(post?.desc);
+                                  selectRoommatePhone(post?.phone);
+                                  selectRoommateEmail(post?.username);
+                                }}
+                              >
+                                <i className="fa-regular fa-message"></i> Description
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
-                  </div>
-                ))
+                      </span>
+                    </div>
+                  ))
               )}
             </div>
             <div
@@ -612,77 +612,79 @@ function DisplayRoommateCard() {
                   </p>
                 </div>
               ) : (
-                roomPosts.map((post) => (
-                  <div className="each-card" key={post?.id}>
-                    <span className="cards">
-                      <div className="main-card">
-                        <div
-                          className="card-img"
-                          style={{
-                            backgroundImage: `url(${boysListingImg})`,
-                            backgroundSize: "cover",
-                            backgroundPosition: "center",
-                          }}
-                        ></div>
-                        <div className="card-info">
-                          <div className="card-informatios">
-                            <div className="card-name">
-                              Rank: {post?.rank} - {post?.preferredBlock} Block
+                roomPosts
+                  .filter(post => post && post.userDetails)
+                  .map((post) => (
+                    <div className="each-card" key={post?._id}>
+                      <span className="cards">
+                        <div className="main-card">
+                          <div
+                            className="card-img"
+                            style={{
+                              backgroundImage: `url(${boysListingImg})`,
+                              backgroundSize: "cover",
+                              backgroundPosition: "center",
+                            }}
+                          ></div>
+                          <div className="card-info">
+                            <div className="card-informatios">
+                              <div className="card-name">
+                                Rank: {post?.rank} - {post?.preferredBlock} Block
+                              </div>
+                              <div
+                                className="card-add"
+                                onClick={() =>
+                                  RoomLiking(post?._id, post?.gender)
+                                }
+                              >
+                                {likeRoom.includes(post?._id) ? (
+                                  <i className="fa-solid fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                                ) : (
+                                  <i className="fa-regular fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
+                                )}
+                              </div>
                             </div>
-                            <div
-                              className="card-add"
-                              onClick={() =>
-                                RoomLiking(post?._id, post?.gender)
-                              }
-                            >
-                              {likeRoom.includes(post?._id) ? (
-                                <i className="fa-solid fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
-                              ) : (
-                                <i className="fa-regular fa-heart" style={{ color: "#d98548", fontSize: "14px" }}></i>
-                              )}
-                            </div>
-                          </div>
 
-                          <div className="card-preference">
-                            <div>
-                              <div className="card-preference-title">Rank</div>
-                              <div className="card-preference-content">{post?.rank || 'N/A'}</div>
+                            <div className="card-preference">
+                              <div>
+                                <div className="card-preference-title">Rank</div>
+                                <div className="card-preference-content">{post?.rank || 'N/A'}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Preferred Bed</div>
+                                <div className="card-preference-content">{post?.preferredBed}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Block</div>
+                                <div className="card-preference-content">{post?.preferredBlock}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Year</div>
+                                <div className="card-preference-content">{post?.year}</div>
+                              </div>
+                              <div>
+                                <div className="card-preference-title">Gender</div>
+                                <div className="card-preference-content">{post?.gender}</div>
+                              </div>
                             </div>
-                            <div>
-                              <div className="card-preference-title">Preferred Bed</div>
-                              <div className="card-preference-content">{post?.preferredBed}</div>
-                            </div>
-                            <div>
-                              <div className="card-preference-title">Block</div>
-                              <div className="card-preference-content">{post?.preferredBlock}</div>
-                            </div>
-                            <div>
-                              <div className="card-preference-title">Year</div>
-                              <div className="card-preference-content">{post?.year}</div>
-                            </div>
-                            <div>
-                              <div className="card-preference-title">Gender</div>
-                              <div className="card-preference-content">{post?.gender}</div>
-                            </div>
-                          </div>
 
-                          <div className="card-habits-section">
-                            <div
-                              className="card-habit-details"
-                              onClick={() => {
-                                selectRoomDetail(post?.desc);
-                                selectRoomPhone(post?.phone);
-                                selectRoomEmail(post?.username);
-                              }}
-                            >
-                              <i className="fa-regular fa-message"></i> Description
+                            <div className="card-habits-section">
+                              <div
+                                className="card-habit-details"
+                                onClick={() => {
+                                  selectRoomDetail(post?.desc);
+                                  selectRoomPhone(post?.phone);
+                                  selectRoomEmail(post?.username);
+                                }}
+                              >
+                                <i className="fa-regular fa-message"></i> Description
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </span>
-                  </div>
-                ))
+                      </span>
+                    </div>
+                  ))
               )}
             </div>
             <div
