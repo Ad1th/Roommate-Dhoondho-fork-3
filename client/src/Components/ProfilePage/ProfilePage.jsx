@@ -23,9 +23,15 @@ import boy from "../../Assets/profile-page/profile-boy.png";
 import "./MyProfile.css";
 
 const Profilepage = () => {
-  const navigate = useNavigate();
-  const profileData = JSON.parse(secureLocalStorage.getItem("profile"));
+  const token = secureLocalStorage.getItem("auth_token")
+    ? JSON.parse(secureLocalStorage.getItem("auth_token"))
+    : null;
 
+  const navigate = useNavigate();
+  const storedProfile = secureLocalStorage.getItem("profile");
+  const profileData = storedProfile ? JSON.parse(storedProfile) : null;
+
+  const userId = profileData?.id || profileData?.user?._id;
   const [fields, setFields] = useState({
     firstname: "",
     lastname: "",
@@ -58,18 +64,15 @@ const Profilepage = () => {
   /* ---------------- FETCH PROFILE ---------------- */
 
   useEffect(() => {
+
+    if (!userId) return;
+
     axios
-      .get(
-        `${process.env.REACT_APP_SERVER_URL}/user/personal/${profileData?.id || profileData?.user?._id
-        }`,
-        {
-          headers: {
-            x_authorization: `Bearer ${JSON.parse(
-              secureLocalStorage.getItem("auth_token")
-            )}`,
-          },
-        }
-      )
+      .get(`${process.env.REACT_APP_SERVER_URL}/user/personal/${userId}`, {
+        headers: {
+          x_authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         const data = response.data;
 
@@ -85,10 +88,11 @@ const Profilepage = () => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error(err);
+        console.error("Error fetching profile:", err);
         setIsLoading(false);
       });
-  }, [profileData]);
+
+  }, [userId, token]);;
 
   /* ---------------- INPUT CHANGE ---------------- */
 
@@ -207,15 +211,15 @@ const Profilepage = () => {
             <CircularProgress size={40} />
           </div>
         ) : (
-          <div className="profile-container">
+          <div className="profile-container ">
 
             {/* LEFT PROFILE CARD */}
 
-            <div className="profile-left-box">
+            <div className=" profile-left-box">
               <div className="avatar-wrapper">
                 <img src={boy} alt="avatar" />
               </div>
-              <h2 className="hello-text">Hello There!</h2>
+              <h2 className="hello-text">Hello {fields.firstname} !</h2>
             </div>
 
 
