@@ -107,7 +107,7 @@ function SignIn() {
             </h1>
 
             <p className="text-gray-600 mb-8">
-              Sign in using your credentials
+              Sign in using your VIT credentials
             </p>
 
             <button
